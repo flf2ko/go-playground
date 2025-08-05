@@ -1,0 +1,4 @@
+include:
+  - path:
+      - ./docker-compose-go.yml
+      - ./docker-compose-go-otel.yml

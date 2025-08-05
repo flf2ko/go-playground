@@ -1,0 +1,655 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "This template provides you quick view to product logs collected on Analytics while requiring you duplicating one in your team folder. Further details can be found on our confluence page: https://ubiquiti.atlassian.net/wiki/x/5wD40Q",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 730,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-athena-datasource",
+        "uid": "ad3e9565-4da6-4a40-b979-9ae82577f7fb"
+      },
+      "description": "This section provides a brief guide to instruct you to have your own board, and start searching on types of  logs you are interested in. For more details, please refer to our Confluence page attached below.",
+      "gridPos": {
+        "h": 16,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 5,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "# Analytics Product Logs\n\nHi teams, here is the new visualization for our product logs. We are going to replace the OpenSearch UI on legacy Crash Report Service with this Grafana dashboard querying the logs we now place in AWS S3. To mitigate your problems when using this new visualization, we provide the document here to guide everyone using it fluently. We will keep updating this document whenever there's an update and any feedback from you all. Besides this guide, you could also refer to our [confluence page](https://ubiquiti.atlassian.net/wiki/x/5wD40Q) for more information.\n\n## Quick Start\n\n### Step 1: Copy the Dashboard\n\n1. Navigate to `Settings > Save as` (in the upper right corner).\n2. (Optional) Change the preferred name and description.\n3. **Change the folder to the one owned by your team.**\n4. Turn on the `Copy tags`.\n5. Save.\n\n### Step 2: Define Your Own Model List\n\n1. Navigate to `Settings > Variables > Model > Custom options`.\n2. Replace the value with models you are interested in, separated by commas.\n\n### Step 3: Perform the Query\n\n1. Narrow down your target by variables `Type`, `Product Line`, `Model`, etc.\n2. View the visualized logs.\n\n## Contact Us\n\nFeel free to contact us via our Slack channel [analytics-ops](https://ui.enterprise.slack.com/archives/G01DQ6TH8LT).\n\n## Frequently Asked Questions (FAQ)\n\n**Q: What should I do if it continues showing No Data?**  \nA: If the dashboard continues to show \"No Data,\" please check the following:\n\n1. Ensure the range of dates you picked exceeding one day since we haven't supported the search within hours.\n2. Ensure the default value of Where option, like `.version`, exists.\n3. Verify that the models you defined show in the dropdown list expectedly. You should note the `All` option represents only all models you defined instead of all models in our system.\n\nIf the issue persists, contact us via the Slack channel.\n\n**Q: How do I remove the guide and announcement panels on my own dashboard?**  \nA: You could find the option button in the upper right corner of each panel. Click `remove` to get rid of them.\n\n**Q: How often is this document updated?**  \nA: We update this document whenever there are changes to the dashboard or based on user feedback. You can also check the _What's New_ section next to this guide for a summary of recent updates.\n\nWe hope this guide helps you use the new Grafana dashboard effectively. Thank you for your cooperation!\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.3.3",
+      "targets": [
+        {
+          "connectionArgs": {
+            "catalog": "__default",
+            "database": "__default",
+            "region": "__default",
+            "resultReuseEnabled": false,
+            "resultReuseMaxAgeInMinutes": 60
+          },
+          "datasource": {
+            "type": "grafana-athena-datasource",
+            "uid": "ad3e9565-4da6-4a40-b979-9ae82577f7fb"
+          },
+          "format": 1,
+          "rawSQL": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Guide",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-athena-datasource",
+        "uid": "ad3e9565-4da6-4a40-b979-9ae82577f7fb"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 16,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "# What's New?\n\n## Browse v0.1\n\nWelcome to our first release!\n\n- The `product_logs` table now supports efficient queries by `Type`, `Product Line`, and `Model`, optimizing both cost and speed.\n- The `product_logs_general` table allows for queries without specifying a `Model`, providing a broad overview.\n- The `Where` and `Like` options enable targeted log searches using a JSON path and regular expression.\n- The `Show` option allows you to customize the displayed log fields at a glance, using a specified JSON path.\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.3.3",
+      "targets": [
+        {
+          "connectionArgs": {
+            "catalog": "__default",
+            "database": "__default",
+            "region": "__default",
+            "resultReuseEnabled": false,
+            "resultReuseMaxAgeInMinutes": 60
+          },
+          "datasource": {
+            "type": "grafana-athena-datasource",
+            "uid": "ad3e9565-4da6-4a40-b979-9ae82577f7fb"
+          },
+          "format": 1,
+          "rawSQL": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Announcement",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-athena-datasource",
+        "uid": "ad3e9565-4da6-4a40-b979-9ae82577f7fb"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "right",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.3",
+      "targets": [
+        {
+          "connectionArgs": {
+            "catalog": "__default",
+            "database": "__default",
+            "region": "__default",
+            "resultReuseEnabled": false,
+            "resultReuseMaxAgeInMinutes": 60
+          },
+          "datasource": {
+            "type": "grafana-athena-datasource",
+            "uid": "ad3e9565-4da6-4a40-b979-9ae82577f7fb"
+          },
+          "format": 1,
+          "rawSQL": "SELECT \n  log_lines.\"time\", \n  count(*) as \"log count\"\nFROM (\n  SELECT \n    date_trunc('hour', from_iso8601_timestamp(system_time)) as \"time\"\n  FROM product_logs \n  WHERE $__timeFilter(day, 'yyyy-MM-dd') \n    AND type in ($Type) \n    AND product_line in ($Product) \n    AND model in ($Model) \n    AND regexp_like(json_value(body, 'strict $$Where'), '$Like')\n) AS log_lines\nGROUP BY log_lines.\"time\"\nORDER BY log_lines.\"time\"",
+          "refId": "A"
+        }
+      ],
+      "title": "Log Volume",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-athena-datasource",
+        "uid": "ad3e9565-4da6-4a40-b979-9ae82577f7fb"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 15,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 1,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "10.3.3",
+      "targets": [
+        {
+          "connectionArgs": {
+            "catalog": "__default",
+            "database": "__default",
+            "region": "__default",
+            "resultReuseEnabled": false,
+            "resultReuseMaxAgeInMinutes": 60
+          },
+          "datasource": {
+            "type": "grafana-athena-datasource",
+            "uid": "ad3e9565-4da6-4a40-b979-9ae82577f7fb"
+          },
+          "format": 1,
+          "rawSQL": "SELECT \n\tfrom_iso8601_timestamp(system_time) as time, \n\tjson_query(body, 'strict $$Show') as line,\n\tbody\nFROM product_logs \nWHERE $__timeFilter(day, 'yyyy-MM-dd') \n\tAND type in ($Type) \n\tAND product_line in ($Product) \n\tAND model in ($Model) \n\tAND regexp_like(json_value(body, 'strict $$Where'), '$Like')\nLIMIT $Limit;",
+          "refId": "A"
+        }
+      ],
+      "title": "Log Lines",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "format": "auto",
+            "keepTime": false,
+            "replace": false,
+            "source": "body"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "body": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "transparent": true,
+      "type": "logs"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [
+    "Analytics"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "kernel-crash"
+          ],
+          "value": [
+            "kernel-crash"
+          ]
+        },
+        "description": "Known types in Analytics Product Logs. Contact us to register a new one. ",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Type",
+        "options": [
+          {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "app-crash",
+            "value": "app-crash"
+          },
+          {
+            "selected": false,
+            "text": "core-dump",
+            "value": "core-dump"
+          },
+          {
+            "selected": true,
+            "text": "kernel-crash",
+            "value": "kernel-crash"
+          },
+          {
+            "selected": false,
+            "text": "crash",
+            "value": "crash"
+          },
+          {
+            "selected": false,
+            "text": "oom-kill",
+            "value": "oom-kill"
+          },
+          {
+            "selected": false,
+            "text": "oom-killed",
+            "value": "oom-killed"
+          },
+          {
+            "selected": false,
+            "text": "out-of-memory",
+            "value": "out-of-memory"
+          },
+          {
+            "selected": false,
+            "text": "ram-dump",
+            "value": "ram-dump"
+          },
+          {
+            "selected": false,
+            "text": "firmware-crash",
+            "value": "firmware-crash"
+          },
+          {
+            "selected": false,
+            "text": "vwire-disconnect",
+            "value": "vwire-disconnect"
+          },
+          {
+            "selected": false,
+            "text": "ems-crash",
+            "value": "ems-crash"
+          },
+          {
+            "selected": false,
+            "text": "watchdog-timeout",
+            "value": "watchdog-timeout"
+          },
+          {
+            "selected": false,
+            "text": "radar-detection",
+            "value": "radar-detection"
+          },
+          {
+            "selected": false,
+            "text": "log",
+            "value": "log"
+          },
+          {
+            "selected": false,
+            "text": "app-debug",
+            "value": "app-debug"
+          },
+          {
+            "selected": false,
+            "text": "-",
+            "value": "-"
+          }
+        ],
+        "query": "app-crash,core-dump,kernel-crash,crash,oom-kill,oom-killed,out-of-memory,ram-dump,firmware-crash,vwire-disconnect,ems-crash,watchdog-timeout,radar-detection,log,app-debug,-",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "network"
+          ],
+          "value": [
+            "network"
+          ]
+        },
+        "description": "Known product lines in Analytics Product Logs. Contact us to register a new one. ",
+        "hide": 0,
+        "includeAll": false,
+        "multi": true,
+        "name": "Product",
+        "options": [
+          {
+            "selected": true,
+            "text": "network",
+            "value": "network"
+          },
+          {
+            "selected": false,
+            "text": "network_controller",
+            "value": "network_controller"
+          },
+          {
+            "selected": false,
+            "text": "protect",
+            "value": "protect"
+          },
+          {
+            "selected": false,
+            "text": "protect_controller",
+            "value": "protect_controller"
+          },
+          {
+            "selected": false,
+            "text": "talk",
+            "value": "talk"
+          },
+          {
+            "selected": false,
+            "text": "access",
+            "value": "access"
+          },
+          {
+            "selected": false,
+            "text": "amplifi",
+            "value": "amplifi"
+          },
+          {
+            "selected": false,
+            "text": "connect",
+            "value": "connect"
+          },
+          {
+            "selected": false,
+            "text": "connect_firmware",
+            "value": "connect_firmware"
+          },
+          {
+            "selected": false,
+            "text": "connect_application",
+            "value": "connect_application"
+          },
+          {
+            "selected": false,
+            "text": "connect_web",
+            "value": "connect_web"
+          },
+          {
+            "selected": false,
+            "text": "connect_mobile",
+            "value": "connect_mobile"
+          },
+          {
+            "selected": false,
+            "text": "drive",
+            "value": "drive"
+          },
+          {
+            "selected": false,
+            "text": "-",
+            "value": "-"
+          }
+        ],
+        "query": "network,network_controller,protect,protect_controller,talk,access,amplifi,connect,connect_firmware,connect_application,connect_web,connect_mobile,drive,-",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "UAL6",
+            "UAPL6",
+            "U6ENT"
+          ],
+          "value": [
+            "UAL6",
+            "UAPL6",
+            "U6ENT"
+          ]
+        },
+        "description": "The models of devices uploading these product logs. Define the models you are interested in under Settings > Variables > Model > Custom options. ",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Model",
+        "options": [
+          {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "UDM",
+            "value": "UDM"
+          },
+          {
+            "selected": false,
+            "text": "UDMPRO",
+            "value": "UDMPRO"
+          },
+          {
+            "selected": false,
+            "text": "USL48",
+            "value": "USL48"
+          },
+          {
+            "selected": true,
+            "text": "UAL6",
+            "value": "UAL6"
+          },
+          {
+            "selected": true,
+            "text": "UAPL6",
+            "value": "UAPL6"
+          },
+          {
+            "selected": true,
+            "text": "U6ENT",
+            "value": "U6ENT"
+          },
+          {
+            "selected": false,
+            "text": "U7IW",
+            "value": "U7IW"
+          },
+          {
+            "selected": false,
+            "text": "U7PG2",
+            "value": "U7PG2"
+          }
+        ],
+        "query": "UDM,UDMPRO,USL48,UAL6,UAPL6,U6ENT,U7IW,U7PG2",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": ".version",
+          "value": ".version"
+        },
+        "description": "The Where and Like options enable targeted log searches using a JSON path and regular expression. Refer the json_value function in Trino (SQL engine).",
+        "hide": 0,
+        "name": "Where",
+        "options": [
+          {
+            "selected": true,
+            "text": ".version",
+            "value": ".version"
+          }
+        ],
+        "query": ".version",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "",
+          "value": ""
+        },
+        "description": "The `Where` and `Like` options enable targeted log searches using a JSON path and regular expression. Refer the regexp_like function in Trino. ",
+        "hide": 0,
+        "name": "Like",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": ".crash_log",
+          "value": ".crash_log"
+        },
+        "description": "The Show option allows you to customize the displayed log fields at a glance, using a specified JSON path.",
+        "hide": 0,
+        "label": "",
+        "name": "Show",
+        "options": [
+          {
+            "selected": true,
+            "text": ".crash_log",
+            "value": ".crash_log"
+          }
+        ],
+        "query": ".crash_log",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "200",
+          "value": "200"
+        },
+        "description": "",
+        "hide": 0,
+        "name": "Limit",
+        "options": [
+          {
+            "selected": true,
+            "text": "200",
+            "value": "200"
+          }
+        ],
+        "query": "200",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "utc",
+  "title": "Analytics Product Logs v0.1: template & guide & announcement",
+  "uid": "a1bc5730-8aed-4d7c-a8b5-e9133e6ba2ab",
+  "version": 15,
+  "weekStart": ""
+}

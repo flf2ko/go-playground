@@ -1,0 +1,19 @@
+include:
+  - ../base/docker-compose.yaml
+
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:${OTEL_COLLECTOR_TAG:-0.120.0}
+    volumes:
+      - ../../src/otel-collector/otel-collector-config.yml:/etc/otelcol/otel-collector-config.yml
+      - ~/.aws:/home/.aws
+    command: --config /etc/otelcol/otel-collector-config.yml
+    environment:
+      - AWS_PROFILE=nimbus-proto
+    ports:
+      - "4327:4317" # otlp GRPC
+      - "4328:4318" # otlp HTTP
+      - "8888:8888" # telemetry metrics
+      - "8889:8889" # exporter prometheus
+    depends_on:
+      - tempo

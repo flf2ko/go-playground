@@ -1,0 +1,38 @@
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    type: prometheus
+    url: http://prometheus:9090
+    isDefault: false
+    access: proxy
+    editable: true
+    jsonData:
+      exemplarTraceIdDestinations:
+        - datasourceUid: Tempo
+          urlDisplayLabel: Tempo
+          name: TraceID
+  - name: Loki
+    type: loki
+    access: proxy
+    url: http://loki:3100
+    jsonData:
+      httpMethod: GET
+      derivedFields:
+        - datasourceUid: Tempo
+          matcherRegex: '"traceid":"([a-fA-F0-9]+)"'
+          name: TraceID
+          url: "$${__value.raw}"
+  - name: Tempo
+    type: tempo
+    access: proxy
+    url: http://tempo:3200
+    jsonData:
+      httpMethod: GET
+      serviceMap:
+        datasourceUid: Prometheus
+      tracesToLogsV2:
+        datasourceUid: Loki
+        spanStartTimeShift: "-30m"
+        spanEndTimeShift: "30m"
+        customQuery: true
+        query: '{service_name="ulp-go"} |~ "$${__span.traceId}"'

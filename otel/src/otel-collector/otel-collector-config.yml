@@ -1,0 +1,132 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "0.0.0.0:4317"
+      http:
+        endpoint: "0.0.0.0:4318"
+
+  # Dummy receiver that's never used, because a pipeline is required to have one.
+  otlp/spanmetrics:
+    protocols:
+      grpc:
+        endpoint: "localhost:65535"
+
+  prometheus/otel_collector:
+    config:
+      scrape_configs:
+        - job_name: otel-collector
+          scrape_interval: 5s
+          static_configs:
+            - targets: [localhost:8888]
+
+exporters:
+  # prometheus:
+  # endpoint: "0.0.0.0:8889"
+  # endpoint: "0.0.0.0:9090"
+  debug:
+    verbosity: detailed
+
+  # Data sources: metrics
+  prometheusremotewrite:
+    endpoint: http://prometheus-remote-write:9090/api/v1/write
+    tls:
+      insecure: true
+    # endpoint: https://aps-workspaces.us-west-2.amazonaws.com/workspaces/ws-c11d0162-d3c5-4a87-89ea-4cfb2f1da810/api/v1/remote_write
+    # auth:
+    #   authenticator: sigv4auth
+    # send_metadata: true
+    # external_labels:
+    #   sender: "test-otel-collector"
+
+  otlp/tempo:
+    endpoint: "tempo:4317"
+    tls:
+      insecure: true
+
+processors:
+  batch:
+
+  memory_limiter:
+    # 75% of maximum memory up to 2G
+    limit_mib: 1536
+    # 25% of limit up to 2G
+    spike_limit_mib: 512
+    check_interval: 5s
+
+  # resource/service-instance:
+  #   attributes:
+  #     - key: service.instance.id
+  #       from_attribute: host.name
+  #       action: insert
+  attributes/insert_resource_attributes:
+    actions:
+      - key: host.name
+        action: insert
+        from_attribute: host.name
+      - key: os.type
+        action: insert
+        from_attribute: os.type
+      - key: aws.ecs.task.arn
+        action: insert
+        from_attribute: aws.ecs.task.arn
+      - key: cloud.account.id
+        action: insert
+        from_attribute: cloud.account.id
+
+  # Ref: https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/resourcedetectionprocessor/internal/aws/ecs/documentation.md
+  transform/add_resource_attributes_as_metric_attributes:
+    error_mode: ignore
+    metric_statements:
+      - context: datapoint
+        statements:
+          # - set(resource.attributes["os.type"])
+          - set(attributes["host.name"], resource.attributes["host.name"])
+          - set(attributes["os.type"], resource.attributes["os.type"])
+          - set(attributes["aws.ecs.task.arn"], resource.attributes["aws.ecs.task.arn"])
+          - set(attributes["cloud.account.id"], resource.attributes["cloud.account.id"])
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      # processors: [memory_limiter, batch, geoip]
+      processors: [memory_limiter, batch]
+      exporters: [otlp/tempo]
+    # The exporter name in this pipeline must match the spanmetrics.metrics_exporter name.
+    # The receiver is just a dummy and never used; added to pass validation requiring at least one receiver in a pipeline.
+    # metrics:
+    #   receivers: [otlp]
+    #   # processors: [memory_limiter, batch, geoip]
+    #   processors: [memory_limiter, batch]
+    #   exporters: [prometheus]
+    metrics/otlp:
+      receivers: [otlp]
+      processors: [
+          # resource/service-instance,
+          batch,
+          # resourcedetection,
+          # attributes/insert_resource_attributes,
+          transform/add_resource_attributes_as_metric_attributes,
+        ]
+      exporters: [prometheusremotewrite]
+
+    metrics/remote_write:
+      receivers: [prometheus/otel_collector, otlp]
+      processors: [
+          # resource/service-instance,
+          batch,
+          memory_limiter,
+          # resourcedetection,
+          # attributes/insert_resource_attributes,
+          transform/add_resource_attributes_as_metric_attributes,
+        ]
+      exporters: [prometheusremotewrite]
+  telemetry:
+    metrics:
+      readers:
+        - pull:
+            exporter:
+              prometheus:
+                host: "0.0.0.0"
+                port: 8888
