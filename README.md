@@ -15,8 +15,10 @@
   - 📈 Prometheus - 指標收集與監控
   - 📝 Loki - 日誌聚合與查詢
   - 🔍 Tempo - 分散式追蹤
+  - 🔥 Pyroscope - 連續性能分析 (Profiling)
   - 📊 Grafana - 視覺化儀表板
   - 🔄 OpenTelemetry Collector - 遙測資料收集器
+  - 📦 MinIO - 物件儲存 (Pyroscope 資料儲存)
 
 ## API 端點
 
@@ -142,6 +144,7 @@ go-playground/
 │   │   ├── loki/               # Loki 日誌配置
 │   │   ├── otel-collector/     # OpenTelemetry Collector 配置
 │   │   ├── prometheus/         # Prometheus 監控配置
+│   │   ├── pyroscope/          # Pyroscope 性能分析配置
 │   │   └── tempo/              # Tempo 追蹤配置
 │   └── data/                   # 持久化資料目錄
 ├── vendor/                      # Go vendor 依賴 (可選)
@@ -223,8 +226,10 @@ CREATE TABLE json_records (
 - **指標收集**: Prometheus
 - **日誌管理**: Loki
 - **分散式追蹤**: Tempo
+- **性能分析**: Pyroscope (連續性能分析)
 - **視覺化**: Grafana (含多種專用插件)
 - **遙測收集**: OpenTelemetry Collector
+- **物件儲存**: MinIO (Pyroscope 資料儲存)
 
 ## 開發說明
 
@@ -276,10 +281,12 @@ CREATE TABLE json_records (
 
 當啟動完整環境後，可以透過以下端點存取各個服務：
 
-- **API Server**: http://localhost:8080
-- **Grafana**: http://localhost:3000 (admin/admin)
-- **Prometheus**: http://localhost:9090
-- **Loki**: http://localhost:3100
+- **API Server**: <http://localhost:8080>
+- **Grafana**: <http://localhost:3000> (admin/admin)
+- **Prometheus**: <http://localhost:9090>
+- **Loki**: <http://localhost:3100>
+- **Pyroscope**: <http://localhost:4040>
+- **MinIO Console**: <http://localhost:9001> (pyroscope/supersecret)
 
 ### Grafana 儀表板
 
@@ -290,6 +297,7 @@ CREATE TABLE json_records (
 - **分析資訊儀表板**: 業務指標和使用分析
 - **日誌分析儀表板**: 日誌聚合和查詢
 - **Pond Pool 資訊**: 自定義業務指標
+- **Pyroscope 性能分析**: CPU、記憶體使用情況和火焰圖分析
 
 ### OpenTelemetry 配置
 
@@ -340,4 +348,10 @@ curl http://localhost:9090/metrics
 
 # 檢查 Grafana 狀態
 curl http://localhost:3000/api/health
+
+# 檢查 Pyroscope 狀態
+curl http://localhost:4040/api/v1/status
+
+# 檢查 MinIO 狀態
+curl http://localhost:9000/minio/health/live
 ```

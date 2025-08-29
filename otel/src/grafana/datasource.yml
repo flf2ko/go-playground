@@ -36,3 +36,15 @@ datasources:
         spanEndTimeShift: "30m"
         customQuery: true
         query: '{service_name="ulp-go"} |~ "$${__span.traceId}"'
+      tracesToProfilesV2:
+        datasourceUid: Pyroscope
+        customQuery: true
+        query: '{service_name="$${__span.tags["service.name"]}"}'
+  - name: Pyroscope
+    type: pyroscope
+    access: proxy
+    url: http://pyroscope:4040
+    jsonData:
+      backendType: pyroscope
+    isDefault: false
+    editable: true

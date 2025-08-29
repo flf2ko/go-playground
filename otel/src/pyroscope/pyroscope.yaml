@@ -1,0 +1,53 @@
+server:
+  http_listen_port: 4040
+
+target_discovery:
+  server_timeout: 5s
+
+query_frontend:
+  max_retries: 5
+  query_sharding_target_series_per_shard: 2500
+
+query_scheduler:
+  max_outstanding_requests_per_tenant: 800
+
+distributor:
+  ring:
+    kvstore:
+      store: memberlist
+
+ingester:
+  ring:
+    kvstore:
+      store: memberlist
+
+memberlist:
+  abort_if_cluster_join_fails: false
+  bind_port: 7946
+  join_members:
+    - pyroscope:7946
+
+limits:
+  max_query_parallelism: 32
+  max_query_length: 721h
+
+storage:
+  s3:
+    endpoint: minio:9000
+    bucket_name: pyroscope
+    access_key_id: pyroscope
+    secret_access_key: supersecret
+    insecure: true
+
+analytics:
+  reporting_enabled: false
+
+compactor:
+  working_directory: /data/pyroscope/compactor
+  compaction_interval: 2m
+  retention_enabled: true
+  retention_duration: 1h
+  blocks_retention_period: 5m
+
+usage_stats:
+  installation_mode: docker-compose

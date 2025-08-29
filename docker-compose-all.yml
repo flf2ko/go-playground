@@ -1,4 +1,6 @@
 include:
   - path:
+      # base compose + go api
       - ./docker-compose-go.yml
+      # append otel
       - ./docker-compose-go-otel.yml
