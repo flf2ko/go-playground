@@ -24,3 +24,7 @@ scrape_configs:
     scrape_interval: 30s
     static_configs:
       - targets: ["grafana:3000"]
+  - job_name: api-server
+    scrape_interval: 30s
+    static_configs:
+      - targets: ["api-server:8080"]

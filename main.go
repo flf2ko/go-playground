@@ -9,6 +9,7 @@ import (
 	"github.com/flf2ko/playground/go-api-sample/database"
 	"github.com/flf2ko/playground/go-api-sample/handlers"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -77,6 +78,8 @@ func setupRouter(linkHandler *handlers.LinkHandler) *gin.Engine {
 		})
 	})
 
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
+
 	// API routes
 	api := router.Group("/api/v1")
 	{
@@ -92,6 +95,7 @@ func setupRouter(linkHandler *handlers.LinkHandler) *gin.Engine {
 			"description": "A simple JSON fetcher API",
 			"endpoints": gin.H{
 				"health":     "GET /health",
+				"metrics":    "GET /metrics",
 				"fetch-json": "GET /api/v1/fetch-json?link=<url>",
 				"records":    "GET /api/v1/records",
 			},

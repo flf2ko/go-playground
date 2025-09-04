@@ -1,0 +1,100 @@
+# Go specific files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Go workspace and module files
+go.work
+go.work.sum
+
+# Binary files
+bin/
+dist/
+build/
+
+# Documentation
+*.md
+README*
+LICENSE*
+CHANGELOG*
+CONTRIBUTING*
+CODE_OF_CONDUCT*
+
+# Configuration files
+*.yml
+*.yaml
+*.toml
+*.ini
+*.cfg
+*.conf
+.env
+.env.local
+.env.*.local
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# Docker files
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Build and dependency files
+Makefile
+Makefile.*
+*.makefile
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+logs/
+tmp/
+temp/
+
+# Test files and coverage
+coverage/
+*.cover
+*.prof
+*.trace
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Monitoring and observability (if not needed in container)
+otel/
+grafana-custom-build/
+scripts/
+
+# Development tools
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

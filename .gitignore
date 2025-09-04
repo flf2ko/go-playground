@@ -21,9 +21,6 @@ out/
 go.work
 go.work.sum
 
-# Dependency directories
-vendor/
-
 # IDE and editor files
 .vscode/
 .idea/
@@ -72,8 +69,6 @@ secrets.*
 ehthumbs.db
 Thumbs.db
 
-# Docker
-.dockerignore
 
 # Monitoring and observability data
 otel/data/
