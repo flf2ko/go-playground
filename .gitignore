@@ -1,0 +1,125 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go specific
+go.work
+go.work.sum
+
+# Build and output directories
+bin/
+dist/
+build/
+out/
+
+# Go workspace and module files
+go.work
+go.work.sum
+
+# Dependency directories
+vendor/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+logs/
+tmp/
+temp/
+
+# Test files and coverage
+coverage/
+*.cover
+*.prof
+*.trace
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Configuration files (if they contain sensitive data)
+config.local.*
+secrets.*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+.dockerignore
+
+# Monitoring and observability data
+otel/data/
+otel/src/grafana/grafana-plugins/
+otel/src/loki/chunks/
+otel/src/loki/tsdb-shipper-*/
+otel/src/loki/wal/
+otel/src/prometheus/data/
+otel/src/tempo/
+
+# Development tools
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Archive files
+*.tar.gz
+*.zip
+*.rar
+
+# Compiled Object files
+*.s
+*.o
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app

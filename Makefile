@@ -4,6 +4,7 @@
 APP_NAME=go-api-server
 DOCKER_IMAGE=go-api-server:latest
 DOCKER_COMPOSE=docker-compose
+DOCKER_COMPOSE_ENV=--env-file otel/.env
 
 # Build binary
 build:
@@ -69,7 +70,7 @@ docker-run: docker-build
 # Docker Compose commands
 docker-up:
 	@echo "Starting services with Docker Compose..."
-	$(DOCKER_COMPOSE) -f ./docker-compose-all.yml  up -d --no-deps --build
+	$(DOCKER_COMPOSE) -f ./docker-compose-all.yml $(DOCKER_COMPOSE_ENV) up -d --no-deps --build
 
 docker-down:
 	@echo "Stopping services..."

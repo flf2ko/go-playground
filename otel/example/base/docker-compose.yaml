@@ -86,7 +86,7 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=true
       # - GF_FEATURE_TOGGLES_ENABLE=tempoSearch tempoBackendSearch tempoServiceGraph dashgpt
-      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor metricsSummary logsExploreTableVisualisation
-      - GF_INSTALL_PLUGINS=https://storage.googleapis.com/integration-artifacts/grafana-exploretraces-app/grafana-exploretraces-app-latest.zip;grafana-traces-app
+      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor metricsSummary logsExploreTableVisualisation grafanaAdvisor
+      - GF_INSTALL_PLUGINS=grafana-googlesheets-datasource,grafana-sentry-datasource,grafana-opensearch-datasource,grafana-athena-datasource,grafana-amazonprometheus-datasource,grafana-synthetic-monitoring-app,grafana-lokiexplore-app,grafana-metricsdrilldown-app,grafana-pyroscope-app,grafana-exploretraces-app,grafana-investigations-app,grafana-resourcesexporter-app,grafana-advisor-app,grafana-llm-app
     ports:
       - 3000:3000
