@@ -78,7 +78,8 @@ services:
     image: grafana/grafana:${GRAFANA_TAG:-12.0.1}
     volumes:
       - ../../src/grafana/grafana.ini:/etc/grafana/grafana.ini
-      - ../../src/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+      # - ../../src/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ../../src/grafana/datasources/:/etc/grafana/provisioning/datasources
       - ../../src/grafana/dashboards/:/etc/grafana/provisioning/dashboards
       - ../../src/grafana/grafana-plugins:/var/lib/grafana/plugins
     environment:
