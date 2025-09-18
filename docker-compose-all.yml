@@ -4,3 +4,4 @@ include:
       - ./docker-compose-go-auto-instrumentation.yml
       - ./otel/example/patch/pyroscope/docker-compose.yaml
       - ./otel/example/patch/alloy/docker-compose.yaml
+      - ./otel/example/patch/mcp-grafana/docker-compose.yaml
