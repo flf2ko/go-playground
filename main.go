@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
@@ -28,6 +29,9 @@ import (
 	_ "net/http/pprof"
 
 	_ "github.com/grafana/pyroscope-go/godeltaprof/http/pprof"
+	"go.opentelemetry.io/contrib/bridges/otelslog"
+	"go.opentelemetry.io/otel/exporters/stdout/stdoutlog"
+	"go.opentelemetry.io/otel/log/global"
 )
 
 func main() {
@@ -199,16 +203,25 @@ func initLoggerProvider() (*sdklog.LoggerProvider, error) {
 		}),
 	}
 
+	exporter, err := stdoutlog.New(
+		stdoutlog.WithPrettyPrint(),
+		stdoutlog.WithWriter(os.Stdout),
+	)
+	if err != nil {
+		log.Fatalf("new stdout log exporter failed: %v", err)
+		return nil, err
+	}
+	processor := sdklog.NewBatchProcessor(exporter)
+
 	lp := sdklog.NewLoggerProvider(
 		// sdklog.WithBatcher(exporter),
+		sdklog.WithProcessor(processor),
 		sdklog.WithResource(newResource(lokiHint)),
 	)
 
-	// Log.logger = loggerProvider.Logger(
-	// 	"ride-share",
-	// 	logs.WithInstrumentationVersion("0.0.1"),
-	// 	logs.WithSchemaURL(semconv.SchemaURL),
-	// )
+	global.SetLoggerProvider(lp)
+
+	slog.SetDefault(otelslog.NewLogger("my/pkg/default", otelslog.WithLoggerProvider(lp)))
 
 	return lp, nil
 }

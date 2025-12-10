@@ -1,9 +1,9 @@
 services:
   mcp-grafana:
     image: mcp-grafana:${MCP_GRAFANA_TAG:-v0.6.5}
-    command: ["-t", "streamable-http", "-address", "localhost:3001"]
+    command: ["-t", "streamable-http", "-address", "0.0.0.0:3001"]
     environment:
-      GRAFANA_URL: http://localhost:3000
+      GRAFANA_URL: http://grafana:3000
       GRAFANA_SERVICE_ACCOUNT_TOKEN: ${MCP_GRAFANA_SERVICE_ACCOUNT_TOKEN}
     ports:
       - "3001:3001"

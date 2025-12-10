@@ -23,6 +23,7 @@ datasources:
           name: TraceID
           url: "$${__value.raw}"
   - name: Tempo
+    uid: Tempo
     type: tempo
     access: proxy
     url: http://tempo:3200
@@ -36,3 +37,16 @@ datasources:
         spanEndTimeShift: "30m"
         # customQuery: true
         # query: '{service_name="ulp-go"} |~ "$${__span.traceId}"'
+      tracesToProfiles:
+        customQuery: false
+        datasourceUid: Pyroscope
+        profileTypeId: "process_cpu:cpu:nanoseconds:cpu:nanoseconds"
+        tags:
+          - key: "service.name"
+            value: "service_name"
+  - name: Pyroscope
+    uid: Pyroscope
+    type: grafana-pyroscope-datasource
+    url: http://pyroscope:4040
+    jsonData:
+      keepCookies: [pyroscope_git_session]

@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"log"
+	"log/slog"
 	"net/http"
 	"time"
 
@@ -11,6 +12,7 @@ import (
 	"github.com/flf2ko/playground/go-api-sample/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/go-resty/resty/v2"
+	"go.opentelemetry.io/contrib/bridges/otelslog"
 )
 
 type LinkHandler struct {
@@ -50,7 +52,7 @@ func (h *LinkHandler) FetchJSON(c *gin.Context) {
 		return
 	}
 
-	log.Printf("Fetching JSON from URL: %s", link)
+	slog.Info("Fetching JSON from URL", "url", link)
 
 	resp, err := h.client.R().
 		SetContext(c).
@@ -59,7 +61,7 @@ func (h *LinkHandler) FetchJSON(c *gin.Context) {
 		Get(link)
 
 	if err != nil {
-		log.Printf("Failed to fetch URL %s: %v", link, err)
+		slog.Info("Failed to fetch URL", "url", link, "error", err)
 		c.JSON(http.StatusBadRequest, models.FetchResponse{
 			Success: false,
 			Message: "Failed to fetch URL",
@@ -69,7 +71,7 @@ func (h *LinkHandler) FetchJSON(c *gin.Context) {
 	}
 
 	if resp.StatusCode() >= 400 {
-		log.Printf("HTTP error for URL %s: %d %s", link, resp.StatusCode(), resp.Status())
+		slog.Info("HTTP error for URL", "url", link, "statusCode", resp.StatusCode(), "status", resp.Status())
 		c.JSON(http.StatusBadRequest, models.FetchResponse{
 			Success: false,
 			Message: "HTTP request failed",
@@ -80,7 +82,7 @@ func (h *LinkHandler) FetchJSON(c *gin.Context) {
 
 	contentType := resp.Header().Get("Content-Type")
 	if !utils.IsJSONContentType(contentType) {
-		log.Printf("Invalid content type for URL %s: %s", link, contentType)
+		slog.Info("Invalid content type for URL", "url", link, "contentType", contentType)
 		c.JSON(http.StatusBadRequest, models.FetchResponse{
 			Success: false,
 			Message: "Response is not JSON",
@@ -91,7 +93,7 @@ func (h *LinkHandler) FetchJSON(c *gin.Context) {
 
 	body := resp.String()
 	if err := utils.IsValidJSON(body); err != nil {
-		log.Printf("Invalid JSON from URL %s: %v", link, err)
+		slog.Info("Invalid JSON from URL", "url", link, "error", err)
 		c.JSON(http.StatusBadRequest, models.FetchResponse{
 			Success: false,
 			Message: "Invalid JSON response",
@@ -102,7 +104,7 @@ func (h *LinkHandler) FetchJSON(c *gin.Context) {
 
 	record, err := h.db.SaveJSONRecord(c.Request.Context(), link, body)
 	if err != nil {
-		log.Printf("Failed to save JSON record for URL %s: %v", link, err)
+		slog.Info("Failed to save JSON record for URL", "url", link, "error", err)
 		c.JSON(http.StatusInternalServerError, models.FetchResponse{
 			Success: false,
 			Message: "Failed to save to database",
@@ -111,7 +113,8 @@ func (h *LinkHandler) FetchJSON(c *gin.Context) {
 		return
 	}
 
-	log.Printf("Successfully saved JSON record ID: %d for URL: %s", record.ID, link)
+	// slog.Info("Successfully saved JSON record", "id", record.ID, "url", link)
+	otelslog.NewLogger("link_handler").InfoContext(c, "Successfully saved JSON record", "id", record.ID, "url", link)
 
 	c.JSON(http.StatusOK, models.FetchResponse{
 		Success: true,
